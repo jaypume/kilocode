@@ -174,10 +174,23 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 			// Add max_tokens if needed
 			this.addMaxTokensIfNeeded(requestOptions, modelInfo)
 
+			// kilocode_change start: Add prompt cache support for local models
+			// Use taskId as cache key when system prompt exists - add directly to params
+			const finalParams: OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming = {
+				...requestOptions,
+				...(metadata?.taskId && systemPrompt
+					? {
+							prompt_cache_key: metadata.taskId,
+							use_eminf: true,
+						}
+					: {}),
+			} as OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming
+			// kilocode_change end
+
 			let stream
 			try {
 				stream = await this.client.chat.completions.create(
-					requestOptions,
+					finalParams,
 					isAzureAiInference ? { path: OPENAI_AZURE_AI_INFERENCE_PATH } : {},
 				)
 			} catch (error) {
@@ -399,10 +412,23 @@ export class OpenAiHandler extends BaseProvider implements SingleCompletionHandl
 			// This allows O3 models to limit response length when includeMaxTokens is enabled
 			this.addMaxTokensIfNeeded(requestOptions, modelInfo)
 
+			// kilocode_change start: Add prompt cache support for local models
+			// Use taskId as cache key when system prompt exists - add directly to params
+			const finalParams: OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming = {
+				...requestOptions,
+				...(metadata?.taskId && systemPrompt
+					? {
+							prompt_cache_key: metadata.taskId,
+							use_eminf: true,
+						}
+					: {}),
+			} as OpenAI.Chat.Completions.ChatCompletionCreateParamsStreaming
+			// kilocode_change end
+
 			let stream
 			try {
 				stream = await this.client.chat.completions.create(
-					requestOptions,
+					finalParams,
 					methodIsAzureAiInference ? { path: OPENAI_AZURE_AI_INFERENCE_PATH } : {},
 				)
 			} catch (error) {
