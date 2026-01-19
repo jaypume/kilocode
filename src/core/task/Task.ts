@@ -1620,6 +1620,8 @@ export class Task extends EventEmitter<TaskEvents> implements TaskLike {
 			throw new Error(`[Kilo Code#say] task ${this.taskId}.${this.instanceId} aborted`)
 		}
 
+		// partial == undefined 表示一次性、非流式的完整消息
+		// partial !== undefined 则表示 流式的消息： false完成，true没完成
 		if (partial !== undefined) {
 			const lastMessage = this.clineMessages.at(-1)
 
@@ -1633,6 +1635,7 @@ export class Task extends EventEmitter<TaskEvents> implements TaskLike {
 					lastMessage.images = images
 					lastMessage.partial = partial
 					lastMessage.progressStatus = progressStatus
+					// 这里的update只是把新的chat的对话发送到前端展示，并不会更新lastMessage里面的内容。
 					this.updateClineMessage(lastMessage)
 				} else {
 					// This is a new partial message, so add it with partial state.

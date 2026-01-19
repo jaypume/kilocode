@@ -78,6 +78,8 @@ export function getStorageBasePathSync(defaultPath: string): string {
  */
 export async function getTaskDirectoryPath(globalStoragePath: string, taskId: string): Promise<string> {
 	const basePath = await getStorageBasePath(globalStoragePath)
+	// basePath指代的是kilo插件路径，不是工作路径。 /Users/pj/Library/Application Support/Code/User/globalStorage/kilocode.kilo-code
+	// taskId就是uuid, cccc69cb-c19d-4cd4-912f-88953abbf00f
 	const taskDir = path.join(basePath, "tasks", taskId)
 	await fs.mkdir(taskDir, { recursive: true })
 	return taskDir

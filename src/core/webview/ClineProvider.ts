@@ -1151,6 +1151,7 @@ ${prompt}
 
 	public async postMessageToWebview(message: ExtensionMessage) {
 		// NOTE: Changing this? Update effects.ts in the cli too.
+		// 如果是其他类型的消息，则先进行处理
 		kilo_execIfExtension(() => {
 			if (message.type === "apiMessagesSaved" && message.payload) {
 				const [taskId, filePath] = message.payload as [string, string]
@@ -1168,7 +1169,7 @@ ${prompt}
 				SessionManager.init()?.doSync()
 			}
 		})
-
+		// 如果是其他类型的，则直接把message发送到前端
 		await this.view?.webview.postMessage(message)
 	}
 
