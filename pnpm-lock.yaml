@@ -2374,6 +2374,9 @@ importers:
       '@vitest/ui':
         specifier: ^3.2.3
         version: 3.2.4(vitest@3.2.4)
+      eslint:
+        specifier: ^9.27.0
+        version: 9.28.0(jiti@2.4.2)
       identity-obj-proxy:
         specifier: ^3.0.0
         version: 3.0.0
@@ -4979,7 +4982,6 @@ packages:
   '@lancedb/lancedb@0.21.3':
     resolution: {integrity: sha512-hfzp498BfcCJ730fV1YGGoXVxRgE+W1n0D0KwanKlbt8bBPSQ6E6Tf8mPXc8rKdAXIRR3o5mTzMG3z3Fda+m3Q==}
     engines: {node: '>= 18'}
-    cpu: [x64, arm64]
     os: [darwin, linux, win32]
     peerDependencies:
       apache-arrow: '>=15.0.0 <=18.1.0'
